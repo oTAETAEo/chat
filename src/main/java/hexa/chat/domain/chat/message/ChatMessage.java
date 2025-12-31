@@ -5,6 +5,7 @@ import hexa.chat.domain.chat.chatroom.ChatRoom;
 import hexa.chat.domain.member.Member;
 import hexa.chat.domain.shared.Message;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,6 @@ public class ChatMessage extends AbstractEntity {
     private ChatRoom chatRoom;
 
     @Embedded
-    @Column(nullable = false)
     private Message message;
 
     public static ChatMessage register(Member sender, Message message, ChatRoom chatRoom){
@@ -36,7 +36,7 @@ public class ChatMessage extends AbstractEntity {
         return chatMessage;
     }
 
-    public void modify(String newMessage){
+    public void modify(@NotNull String newMessage){
         this.message = new Message(newMessage);
     }
 
