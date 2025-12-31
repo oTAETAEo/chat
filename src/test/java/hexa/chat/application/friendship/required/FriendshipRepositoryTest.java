@@ -31,6 +31,8 @@ class FriendshipRepositoryTest {
         // given
         Member from = MemberFixture.createMember("han@han.com", "han", "_han_");
         Member to = MemberFixture.createMember("kim@kim.com", "kim", "_kim_");
+        memberRepository.save(from);
+        memberRepository.save(to);
 
         Friendship friendship = Friendship.register(from, to);
 
