@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: chat
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
