@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 @Transactional
 @Validated
 @RequiredArgsConstructor
-public class ChatRoomCreateService implements ChatRoomCreate{
+public class CreateChatRoomWithMembersService implements ChatRoomCreate{
 
     private final ChatRoomRegisterService chatRoomRegisterService;
     private final ChatRoomMemberRegisterService chatRoomMemberRegisterService;
