@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -18,7 +16,9 @@ public class ChatMessageFinderService implements ChatMessageFinder {
 
     @Override
     public ChatMessage find(Long chatMessageId) {
-        return chatMessageRepository.findById(chatMessageId).orElseThrow();
+        return chatMessageRepository.findById(chatMessageId)
+                .filter(chatMessage -> !chatMessage.getSoftDeleteInfo().isDeleted())
+                .orElseThrow();
     }
 
 }

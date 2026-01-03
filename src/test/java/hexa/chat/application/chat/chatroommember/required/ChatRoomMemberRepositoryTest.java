@@ -8,7 +8,6 @@ import hexa.chat.domain.chat.chatroommember.ChatRoomMember;
 import hexa.chat.domain.member.Member;
 import hexa.chat.domain.member.MemberFixture;
 import hexa.config.TestQueryDslConfig;
-import org.aspectj.weaver.ast.Literal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

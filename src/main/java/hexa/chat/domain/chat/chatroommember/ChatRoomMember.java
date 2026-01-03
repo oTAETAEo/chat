@@ -3,7 +3,6 @@ package hexa.chat.domain.chat.chatroommember;
 import hexa.chat.domain.AbstractEntity;
 import hexa.chat.domain.chat.chatroom.ChatRoom;
 import hexa.chat.domain.member.Member;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;

@@ -5,7 +5,6 @@ import hexa.chat.application.member.required.MemberRepository;
 import hexa.chat.domain.member.*;
 import hexa.chat.domain.shared.Email;
 import hexa.chat.domain.shared.Name;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

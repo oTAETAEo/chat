@@ -1,6 +1,5 @@
 package hexa.chat.application.chat.chatroommember.provided;
 
-import hexa.chat.application.chat.chatroom.provided.ChatRoomRegister;
 import hexa.chat.application.chat.chatroom.required.ChatRoomRepository;
 import hexa.chat.application.member.required.MemberRepository;
 import hexa.chat.domain.chat.chatroom.ChatRoom;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

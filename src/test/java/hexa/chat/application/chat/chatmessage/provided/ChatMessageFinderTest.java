@@ -12,7 +12,6 @@ import hexa.chat.domain.member.Member;
 import hexa.chat.domain.member.MemberFixture;
 import hexa.chat.domain.shared.Message;
 import jakarta.persistence.EntityManager;
-import org.hibernate.Hibernate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @Transactional
@@ -66,6 +66,24 @@ class ChatMessageFinderTest {
         // then
         assertThat(result.getId()).isEqualTo(chatMessage.getId());
         assertThat(result.getSender().getName()).isEqualTo(member1.getName());
+    }
+
+    @DisplayName("삭제된 메시지는 조회할 수 없다.")
+    @Test
+    void find_deleted_message() {
+        // given
+        Member member1 = memberRepository.save(MemberFixture.createMember("han@han.com", "han", "_han_"));
+        ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.register(ChatRoomType.PRIVATE));
+        chatRoomMemberRepository.save(ChatRoomMember.register(member1, chatRoom));
+        ChatMessage chatMessage = chatMessageRepository.save(ChatMessage.register(member1, new Message("hello"), chatRoom));
+
+        chatMessage.delete(member1.getId(), java.time.LocalDateTime.now());
+        entityManager.flush();
+        entityManager.clear();
+
+        // when - then
+        assertThatThrownBy(() -> chatMessageFinder.find(chatMessage.getId()))
+                .isInstanceOf(java.util.NoSuchElementException.class);
     }
 
 }

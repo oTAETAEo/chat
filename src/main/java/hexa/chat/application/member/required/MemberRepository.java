@@ -3,7 +3,6 @@ package hexa.chat.application.member.required;
 import hexa.chat.domain.member.Member;
 import hexa.chat.domain.shared.Email;
 import hexa.chat.domain.shared.Name;
-import org.springframework.data.repository.Repository;
 
 import java.util.List;
 import java.util.Optional;

@@ -6,8 +6,6 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.boot.SpringApplication;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ChatApplicationTest {
 
     @DisplayName("애플리케이션 실행 테스트")

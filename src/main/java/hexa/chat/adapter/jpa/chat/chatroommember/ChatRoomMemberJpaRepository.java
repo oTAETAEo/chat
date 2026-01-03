@@ -1,6 +1,5 @@
 package hexa.chat.adapter.jpa.chat.chatroommember;
 
-import hexa.chat.domain.chat.chatroom.ChatRoom;
 import hexa.chat.domain.chat.chatroommember.ChatRoomMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 
