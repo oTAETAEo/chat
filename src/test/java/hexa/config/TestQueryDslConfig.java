@@ -1,6 +1,8 @@
 package hexa.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import hexa.chat.adapter.jpa.chat.chatmessage.ChatMessageJpaRepository;
+import hexa.chat.adapter.jpa.chat.chatmessage.ChatMessageRepositoryAdapter;
 import hexa.chat.adapter.jpa.chat.chatroommember.ChatRoomMemberRepositoryAdapter;
 import hexa.chat.adapter.jpa.chat.chatroom.ChatRoomRepositoryAdapter;
 import hexa.chat.adapter.jpa.chat.chatroom.ChatRoomJpaRepository;
@@ -9,6 +11,7 @@ import hexa.chat.adapter.jpa.friendship.FriendshipJapRepository;
 import hexa.chat.adapter.jpa.friendship.FriendshipRepositoryAdapter;
 import hexa.chat.adapter.jpa.member.MemberJpaRepository;
 import hexa.chat.adapter.jpa.member.MemberRepositoryAdapter;
+import hexa.chat.application.chat.chatmessage.required.ChatMessageRepository;
 import hexa.chat.application.chat.chatroom.required.ChatRoomRepository;
 import hexa.chat.application.chat.chatroommember.required.ChatRoomMemberRepository;
 import hexa.chat.application.friendship.required.FriendshipRepository;
@@ -47,5 +50,10 @@ public class TestQueryDslConfig {
     @Bean
     public ChatRoomMemberRepository chatRoomMemberRepository(ChatRoomMemberJpaRepository chatRoomMemberJpaRepository) {
         return new ChatRoomMemberRepositoryAdapter(chatRoomMemberJpaRepository);
+    }
+
+    @Bean
+    public ChatMessageRepository chatMessageRepository (ChatMessageJpaRepository chatMessageJpaRepository) {
+        return new ChatMessageRepositoryAdapter(chatMessageJpaRepository);
     }
 }
