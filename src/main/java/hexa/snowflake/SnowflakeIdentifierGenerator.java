@@ -3,7 +3,7 @@ package hexa.snowflake;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 
-public class EntityIdentifierGenerator implements IdentifierGenerator {
+public class SnowflakeIdentifierGenerator implements IdentifierGenerator {
 
     private final Snowflake snowflake = new Snowflake();
 

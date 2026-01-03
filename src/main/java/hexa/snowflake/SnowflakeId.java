@@ -4,7 +4,7 @@ import org.hibernate.annotations.IdGeneratorType;
 
 import java.lang.annotation.*;
 
-@IdGeneratorType(EntityIdentifierGenerator.class)
+@IdGeneratorType(SnowflakeIdentifierGenerator.class)
 @Target(value = {ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
