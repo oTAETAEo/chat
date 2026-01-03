@@ -4,11 +4,13 @@ import hexa.chat.domain.AbstractEntity;
 import hexa.chat.domain.chat.chatroom.ChatRoom;
 import hexa.chat.domain.member.Member;
 import hexa.chat.domain.shared.Message;
+import hexa.chat.domain.shared.SoftDeleteInfo;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -26,9 +28,13 @@ public class ChatMessage extends AbstractEntity {
     @Embedded
     private Message message;
 
+    @Embedded
+    private SoftDeleteInfo softDeleteInfo;
+
     public static ChatMessage register(Member sender, Message message, ChatRoom chatRoom){
         ChatMessage chatMessage = new ChatMessage();
 
+        chatMessage.softDeleteInfo = new SoftDeleteInfo();
         chatMessage.message = message;
         chatMessage.sender = sender;
         chatMessage.chatRoom = chatRoom;
@@ -36,8 +42,20 @@ public class ChatMessage extends AbstractEntity {
         return chatMessage;
     }
 
-    public void modify(@NotNull String newMessage){
+    public void modify(Long memberId, String newMessage){
+        if (!this.sender.getId().equals(memberId)) {
+            throw new NoAccessToChatMessageException("메시지 접근 권한이 없습니다 : " + memberId);
+        }
+
         this.message = new Message(newMessage);
+    }
+
+    public void delete(Long memberId, LocalDateTime deletedAt) {
+        if (!this.sender.getId().equals(memberId)) {
+            throw new NoAccessToChatMessageException("메시지 접근 권한이 없습니다  : " + memberId);
+        }
+
+        this.softDeleteInfo.delete(memberId, deletedAt);
     }
 
 }
