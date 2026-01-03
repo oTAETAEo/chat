@@ -13,6 +13,8 @@ public interface MemberRepository {
 
     Member save(Member member);
 
+    List<Member> saveAll(List<Member> members);
+
     Optional<Member> findByEmail(Email email);
 
     Optional<Member> findByName(Name name);

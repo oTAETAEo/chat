@@ -18,16 +18,15 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends AbstractEntity {
 
+    @Column(unique = true, nullable = false)
+    private UUID publicId;
+
     @NaturalId
     @Embedded
     private Email email;
 
     @Column(nullable = false)
     private String passwordHash;
-
-    @NaturalId
-    @Column(unique = true, nullable = false)
-    private UUID publicId;
 
     @Embedded
     private Name name;

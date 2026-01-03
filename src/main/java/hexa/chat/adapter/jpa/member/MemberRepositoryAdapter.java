@@ -23,6 +23,11 @@ public class MemberRepositoryAdapter implements MemberRepository {
     }
 
     @Override
+    public List<Member> saveAll(List<Member> members) {
+        return memberJpaRepository.saveAll(members);
+    }
+
+    @Override
     public Optional<Member> findByEmail(Email email) {
         return memberJpaRepository.findMemberByEmail(email);
     }
