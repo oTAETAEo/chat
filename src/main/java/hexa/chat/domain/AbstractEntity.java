@@ -1,7 +1,10 @@
 package hexa.chat.domain;
 
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
+import hexa.snowflake.SnowflakeId;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
@@ -12,14 +15,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
 @ToString
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter(onMethod_ = {@Nullable})
+    @SnowflakeId
     private Long id;
 
     @CreatedDate
@@ -38,7 +41,7 @@ public class AbstractEntity {
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
         AbstractEntity that = (AbstractEntity) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+        return id != null && Objects.equals(id, that.id);
     }
 
     @Override
