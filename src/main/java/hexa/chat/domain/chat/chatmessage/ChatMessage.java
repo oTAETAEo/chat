@@ -1,4 +1,4 @@
-package hexa.chat.domain.chat.message;
+package hexa.chat.domain.chat.chatmessage;
 
 import hexa.chat.domain.AbstractEntity;
 import hexa.chat.domain.chat.chatroom.ChatRoom;
