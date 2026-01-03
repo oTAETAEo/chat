@@ -19,7 +19,7 @@ import java.util.Objects;
 @ToString
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class AbstractEntity {
+public abstract class AbstractEntity {
 
     @Id
     @SnowflakeId
