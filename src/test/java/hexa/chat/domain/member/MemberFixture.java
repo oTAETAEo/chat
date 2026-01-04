@@ -20,6 +20,14 @@ public class MemberFixture {
         return Member.register(createMemberRegisterRequest(email, name, nickname), createPasswordEncoder());
     }
 
+    public static Member createMember(String email, String password, PasswordEncoder encoder){
+        return Member.register(createMemberRegisterRequest(email, password), encoder);
+    }
+
+    public static MemberRegisterRequest createMemberRegisterRequest(String email, String password){
+        return new MemberRegisterRequest(email, password, "test", "otesto", LocalDate.of(2025, 1,1));
+    }
+
     public static MemberRegisterRequest createMemberRegisterRequest(){
         return new MemberRegisterRequest("test@test.com", "test1234", "test", "otesto", LocalDate.of(2025, 1,1));
     }
