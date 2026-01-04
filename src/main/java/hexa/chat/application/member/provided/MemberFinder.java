@@ -7,9 +7,11 @@ import java.util.UUID;
 
 public interface MemberFinder {
 
-    Member find(Long id);
+    Member findById(Long id);
 
-    Member find(String name);
+    Member findByName(String name);
+
+    Member findByEmail(String email);
 
     List<Member> findAll(List<Long> memberIds);
 

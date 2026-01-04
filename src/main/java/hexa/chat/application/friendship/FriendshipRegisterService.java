@@ -26,8 +26,8 @@ public class FriendshipRegisterService implements FriendshipRegister {
 
     @Override
     public Friendship register(FriendRegisterRequest request) {
-        Member from = memberFinder.find(request.fromName());
-        Member to = memberFinder.find(request.toName());
+        Member from = memberFinder.findByName(request.fromName());
+        Member to = memberFinder.findByName(request.toName());
 
         validateFriendshipRequest(from, to);
 

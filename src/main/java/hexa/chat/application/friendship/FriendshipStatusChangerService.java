@@ -29,7 +29,7 @@ public class FriendshipStatusChangerService implements FriendshipStatusChanger {
     public Friendship accept(Long currentMemberId, FriendshipStatusChangeRequest request) {
 
         Friendship friendship = friendshipFinder.find(request.friendshipPublicId());
-        Member member = memberFinder.find(currentMemberId);
+        Member member = memberFinder.findById(currentMemberId);
 
         validateFriendshipAccess(friendship, member);
 
@@ -42,7 +42,7 @@ public class FriendshipStatusChangerService implements FriendshipStatusChanger {
     public Friendship block(Long currentMemberId, FriendshipStatusChangeRequest request) {
 
         Friendship friendship = friendshipFinder.find(request.friendshipPublicId());
-        Member member = memberFinder.find(currentMemberId);
+        Member member = memberFinder.findById(currentMemberId);
 
         validateFriendshipAccess(friendship, member);
 
@@ -55,7 +55,7 @@ public class FriendshipStatusChangerService implements FriendshipStatusChanger {
     public void reject(Long currentMemberId, FriendshipStatusChangeRequest request) {
 
         Friendship friendship = friendshipFinder.find(request.friendshipPublicId());
-        Member member = memberFinder.find(currentMemberId);
+        Member member = memberFinder.findById(currentMemberId);
 
         validateFriendshipAccess(friendship, member);
 
