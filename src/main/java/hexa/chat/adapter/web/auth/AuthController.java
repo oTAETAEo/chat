@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@Valid
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
@@ -24,7 +23,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<Void> logIn(
-        @RequestBody LoginRequest request,
+        @Valid @RequestBody LoginRequest request,
         @CookieValue(value = "deviceId", required = false) String deviceId,
         HttpServletResponse response
     ) {

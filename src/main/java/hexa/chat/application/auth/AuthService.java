@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.UUID;
 
-@Valid
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class AuthService implements LoginUseCase {
     private final MemberFinder memberFinder;
 
     @Override
-    public LoginResponse login(LoginRequest request, @Nullable String deviceId) {
+    public LoginResponse login(@Valid LoginRequest request, @Nullable String deviceId) {
 
         Member member = memberFinder.findByEmail(request.email());
 
