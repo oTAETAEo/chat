@@ -39,6 +39,8 @@ public class Member extends AbstractEntity {
     @Column(nullable = false)
     private LocalDate birthDate;
 
+    private MemberRole role;
+
     public static Member register(MemberRegisterRequest request, PasswordEncoder passwordEncoder){
         Member member = new Member();
 
@@ -48,6 +50,7 @@ public class Member extends AbstractEntity {
         member.birthDate = Objects.requireNonNull(request.birthDate());
         member.nickname = resolveNickname(request);
         member.publicId = UUID.randomUUID();
+        member.role = MemberRole.USER;
 
         return member;
     }
