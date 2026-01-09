@@ -20,6 +20,12 @@ public class MemberFixture {
         return Member.register(createMemberRegisterRequest(email, name, nickname), createPasswordEncoder());
     }
 
+    public static Member createMember(Long id, String email, String name, String nickname){
+        Member member = Member.register(createMemberRegisterRequest(email, name, nickname), createPasswordEncoder());
+        ReflectionTestUtils.setField(member, "id", id);
+        return member;
+    }
+
     public static Member createMember(String email, String password, PasswordEncoder encoder){
         return Member.register(createMemberRegisterRequest(email, password), encoder);
     }
