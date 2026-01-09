@@ -11,7 +11,7 @@ public class PasswordRuleValidator implements ConstraintValidator<PasswordRule, 
         // 1단계: 비어 있음 체크
         if (value == null || value.isBlank()) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("비밀번호를 입력 해 주세요.")
+            context.buildConstraintViolationWithTemplate("필수 요건")
                 .addConstraintViolation();
             return false;
         }
