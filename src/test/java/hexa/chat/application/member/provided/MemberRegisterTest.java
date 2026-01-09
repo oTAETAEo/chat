@@ -44,22 +44,21 @@ class MemberRegisterTest {
 
     @DisplayName("이메일이 존재하면 예외가 발생한다.")
     @Test
-    void DuplicateEmailException() {
+    void duplicateEmailException() {
         // given
         MemberRegisterRequest request1 = MemberFixture.createMemberRegisterRequest("test@test.com", "kim", "_kim_");
         MemberRegisterRequest request2 = MemberFixture.createMemberRegisterRequest("test@test.com", "han", "_han_");
 
-        // when
         memberRegister.register(request1);
 
-        // then
+        // when - then
         assertThatThrownBy(() -> memberRegister.register(request2))
             .isInstanceOf(DuplicateEmailException.class);
     }
 
     @DisplayName("이름이 존재하면 예외가 발생한다.")
     @Test
-    void DuplicateNameException() {
+    void duplicateNameException() {
         // given
         MemberRegisterRequest request1 = MemberFixture.createMemberRegisterRequest("kim1@test.com", "kim", "_kim_");
         MemberRegisterRequest request2 = MemberFixture.createMemberRegisterRequest("kim2@test.com", "kim", "_kim_");
