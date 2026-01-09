@@ -2,9 +2,11 @@ package hexa.chat.adapter.jpa.friendship;
 
 import hexa.chat.application.friendship.required.FriendshipRepository;
 import hexa.chat.domain.friendship.Friendship;
+import hexa.chat.domain.friendship.FriendshipStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,6 +29,21 @@ public class FriendshipRepositoryAdapter implements FriendshipRepository {
     @Override
     public Optional<Friendship> findFriendshipRequest(Long fromMemberId, Long toMemberId) {
         return friendshipJapRepository.findFriendshipRequest(fromMemberId, toMemberId);
+    }
+
+    @Override
+    public List<Friendship> findAllAcceptedFriendshipsByMemberId(Long memberId) {
+        return friendshipJapRepository.findAllAcceptedFriendshipsByMemberId(memberId);
+    }
+
+    @Override
+    public List<Friendship> findAllPendingFriendshipsBySenderId(Long memberId) {
+        return friendshipJapRepository.findAllPendingFriendshipsBySenderId(memberId);
+    }
+
+    @Override
+    public List<Friendship> findAllPendingFriendshipsByReceiverId(Long memberId) {
+        return friendshipJapRepository.findAllPendingFriendshipsByReceiverId(memberId);
     }
 
     @Override

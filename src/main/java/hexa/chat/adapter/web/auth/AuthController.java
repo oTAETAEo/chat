@@ -60,6 +60,17 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/auth/info")
+    public ResponseEntity<AuthInfoResponse> memberInfo(@AuthenticationPrincipal MemberPrincipal memberPrincipal){
+
+        MemberInfoPublicResponse memberPublicInfo = memberQuery.memberPublicInfo(memberPrincipal.id());
+        FriendshipInfoResponse memberFriendshipInfo = friendshipQuery.memberFriendshipInfo(memberPrincipal.id());
+
+        return ResponseEntity.ok(
+            AuthInfoResponse.of(memberPublicInfo, memberFriendshipInfo)
+        );
+    }
+
     private ResponseCookie createDeviceIdCookie(LoginResponse loginResponse) {
         return ResponseCookie.from(TokenName.DEVICE_ID.name(), loginResponse.deviceId())
             .httpOnly(true)
