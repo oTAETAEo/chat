@@ -28,7 +28,7 @@ public class FriendshipStatusChangerService implements FriendshipStatusChanger {
     @Override
     public Friendship accept(Long currentMemberId, FriendshipStatusChangeRequest request) {
 
-        Friendship friendship = friendshipFinder.find(request.friendshipPublicId());
+        Friendship friendship = friendshipFinder.findByPublicId(request.friendshipPublicId());
         Member member = memberFinder.findById(currentMemberId);
 
         validateFriendshipAccess(friendship, member);
@@ -41,7 +41,7 @@ public class FriendshipStatusChangerService implements FriendshipStatusChanger {
     @Override
     public Friendship block(Long currentMemberId, FriendshipStatusChangeRequest request) {
 
-        Friendship friendship = friendshipFinder.find(request.friendshipPublicId());
+        Friendship friendship = friendshipFinder.findByPublicId(request.friendshipPublicId());
         Member member = memberFinder.findById(currentMemberId);
 
         validateFriendshipAccess(friendship, member);
@@ -54,7 +54,7 @@ public class FriendshipStatusChangerService implements FriendshipStatusChanger {
     @Override
     public void reject(Long currentMemberId, FriendshipStatusChangeRequest request) {
 
-        Friendship friendship = friendshipFinder.find(request.friendshipPublicId());
+        Friendship friendship = friendshipFinder.findByPublicId(request.friendshipPublicId());
         Member member = memberFinder.findById(currentMemberId);
 
         validateFriendshipAccess(friendship, member);
