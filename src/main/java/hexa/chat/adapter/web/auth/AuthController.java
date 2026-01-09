@@ -1,25 +1,36 @@
 package hexa.chat.adapter.web.auth;
 
+import hexa.chat.adapter.security.MemberPrincipal;
 import hexa.chat.adapter.web.TokenName;
+import hexa.chat.adapter.web.dto.AuthInfoResponse;
 import hexa.chat.application.auth.dto.LoginRequest;
 import hexa.chat.application.auth.dto.LoginResponse;
+import hexa.chat.application.auth.dto.SignUpRequest;
+import hexa.chat.application.auth.dto.SignUpResponse;
 import hexa.chat.application.auth.provided.LoginUseCase;
+import hexa.chat.application.auth.provided.SignUpUseCase;
+import hexa.chat.application.friendship.dto.FriendshipInfoResponse;
+import hexa.chat.application.friendship.provided.FriendshipQuery;
+import hexa.chat.application.member.dto.MemberInfoPublicResponse;
+import hexa.chat.application.member.provided.MemberQuery;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
 
     private final LoginUseCase loginUseCase;
+    private final SignUpUseCase signUpUseCase;
+
+    private final MemberQuery memberQuery;
+    private final FriendshipQuery friendshipQuery;
 
     @PostMapping("/login")
     public ResponseEntity<Void> logIn(
@@ -39,6 +50,14 @@ public class AuthController {
         response.addHeader(HttpHeaders.SET_COOKIE, deviceIdCookie.toString());
 
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request) {
+
+        SignUpResponse response = signUpUseCase.signUp(request);
+
+        return ResponseEntity.ok(response);
     }
 
     private ResponseCookie createDeviceIdCookie(LoginResponse loginResponse) {

@@ -2,6 +2,10 @@ package hexa.chat.application.auth;
 
 import hexa.chat.application.auth.dto.LoginRequest;
 import hexa.chat.application.auth.dto.LoginResponse;
+import hexa.chat.application.auth.dto.SignUpRequest;
+import hexa.chat.application.auth.dto.SignUpResponse;
+import hexa.chat.application.auth.provided.SignUpUseCase;
+import hexa.chat.application.member.provided.MemberRegister;
 import hexa.chat.domain.shared.Token;
 import hexa.chat.application.auth.provided.LoginUseCase;
 import hexa.chat.application.auth.required.RefreshTokenRepository;
@@ -16,20 +20,24 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Date;
 import java.util.UUID;
 
 @Service
+@Validated
 @Transactional
 @RequiredArgsConstructor
-public class AuthService implements LoginUseCase {
+public class AuthService implements LoginUseCase , SignUpUseCase {
 
     private final PasswordEncoder passwordEncoder;
 
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+
     private final MemberFinder memberFinder;
+    private final MemberRegister memberRegister;
 
     @Override
     public LoginResponse login(@Valid LoginRequest request, @Nullable String deviceId) {
@@ -54,6 +62,14 @@ public class AuthService implements LoginUseCase {
         return LoginResponse.of(accessJwt.value(), refreshJwt.value(), resolveDeviceId);
     }
 
+    @Override
+    public SignUpResponse signUp(@Valid SignUpRequest request) {
+
+        Member member = memberRegister.register(request.toCommand());
+
+        return SignUpResponse.of(member);
+    }
+
     private long nowTime() {
         return new Date().getTime();
     }
@@ -63,5 +79,4 @@ public class AuthService implements LoginUseCase {
             ? UUID.randomUUID().toString()
             : deviceId;
     }
-
 }
