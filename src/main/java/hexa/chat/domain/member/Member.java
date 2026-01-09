@@ -3,9 +3,7 @@ package hexa.chat.domain.member;
 import hexa.chat.domain.AbstractEntity;
 import hexa.chat.domain.shared.Email;
 import hexa.chat.domain.shared.Name;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +37,8 @@ public class Member extends AbstractEntity {
     @Column(nullable = false)
     private LocalDate birthDate;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
     private MemberRole role;
 
     public static Member register(MemberRegisterRequest request, PasswordEncoder passwordEncoder){
