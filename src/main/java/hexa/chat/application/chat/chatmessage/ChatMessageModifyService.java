@@ -2,6 +2,8 @@ package hexa.chat.application.chat.chatmessage;
 
 import hexa.chat.application.chat.chatmessage.provided.ChatMessageFinder;
 import hexa.chat.application.chat.chatmessage.provided.ChatMessageModify;
+import hexa.chat.application.chat.chatmessage.provided.ChatMessageRegister;
+import hexa.chat.application.chat.chatmessage.required.ChatMessageRepository;
 import hexa.chat.domain.chat.chatmessage.ChatMessage;
 import hexa.chat.domain.chat.chatmessage.ChatMessageModifyRequest;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 public class ChatMessageModifyService implements ChatMessageModify {
 
     private final ChatMessageFinder chatMessageFinder;
+    private final ChatMessageRepository chatMessageRepository;
 
     @Override
     public void delete(Long memberId, Long chatMessageId) {
@@ -23,6 +26,8 @@ public class ChatMessageModifyService implements ChatMessageModify {
         ChatMessage chatMessage = chatMessageFinder.find(chatMessageId);
 
         chatMessage.delete(memberId, LocalDateTime.now());
+
+        chatMessageRepository.save(chatMessage);
     }
 
     @Override
@@ -31,6 +36,8 @@ public class ChatMessageModifyService implements ChatMessageModify {
         ChatMessage chatMessage = chatMessageFinder.find(request.chatMessageId());
 
         chatMessage.modify(memberId, request.newMessage());
+
+        chatMessageRepository.save(chatMessage);
     }
 
 }
