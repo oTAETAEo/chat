@@ -2,7 +2,7 @@ package hexa.snowflake;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.random.RandomGenerator;
+import java.util.concurrent.ThreadLocalRandom;
 
 public final class Snowflake implements Serializable {
 
@@ -20,7 +20,7 @@ public final class Snowflake implements Serializable {
     // UTC = 2024-01-01T00:00:00Z
     private static final long START_TIME_MILLIS = 1704067200000L;
 
-    private final long nodeId = RandomGenerator.getDefault().nextLong(MAX_NODE_ID + 1);
+    private final long nodeId = ThreadLocalRandom.current().nextLong(MAX_NODE_ID + 1);
 
     private long lastTimeMillis = START_TIME_MILLIS;
     private long sequence = 0L;
