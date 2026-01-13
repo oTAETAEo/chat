@@ -22,6 +22,7 @@ jobs:
 
       - name: Build with Gradle
         run: |
+          echo ${{secrets.APPLICATION_JWT}} | base64 --decode > ./src/main/resources/application-jwt.yml
           chmod +x ./gradlew
           ./gradlew clean bootJar
 
