@@ -26,7 +26,7 @@ class SignUpUseCaseTest {
             "_test_",
             "test",
             "test1234",
-            "2025-01-10"
+            "2011-01-10"
         );
 
         // when

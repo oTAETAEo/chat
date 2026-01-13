@@ -1,7 +1,35 @@
 spring:
+  profiles:
+    active: local
+    group:
+      local: [local, common, secret]
+      blue: [blue, common, secret]
+      green: [green, common, secret]
+  config:
+    import: "classpath:application-jwt.yml"
+
   application:
     name: chat
 
+  # [배포 기본 설정] 성능과 안전성을 위해 로그를 끄고 스키마를 보호합니다.
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+server:
+  env: blue
+
+---
+
+# 로컬 개발 환경
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  # 개발 편의를 위해 로그를 출력하고 테이블을 자동 생성/수정합니다.
   jpa:
     show-sql: true
     hibernate:
@@ -9,3 +37,37 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+server:
+  port: 8080
+  address: localhost
+
+serverName: local_server
+
+---
+
+# 운영 환경 (Blue)
+spring:
+  config:
+    activate:
+      on-profile: blue
+
+server:
+  port: 8080
+  # address 설정은 제거 (Docker 환경 대응)
+
+serverName: blue_server
+
+---
+
+# 운영 환경 (Green)
+spring:
+  config:
+    activate:
+      on-profile: green
+
+server:
+  port: 8081
+  # address 설정은 제거 (Docker 환경 대응)
+
+serverName: green_server

@@ -196,7 +196,7 @@ class AuthControllerTest {
             "_test_",
             "test",
             "test1234",
-            "2025-01-10"
+            "2011-01-10"
         );
 
         SignUpResponse response = new SignUpResponse("test 님 가입을 환영합니다.");
