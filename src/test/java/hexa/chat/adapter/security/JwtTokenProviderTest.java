@@ -1,7 +1,7 @@
 package hexa.chat.adapter.security;
 
-import hexa.chat.domain.shared.Token;
 import hexa.chat.domain.member.MemberRole;
+import hexa.chat.domain.shared.Token;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;

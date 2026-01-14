@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -55,7 +57,8 @@ class ChatMessageFinderTest {
         chatRoomMemberRepository.save(ChatRoomMember.register(member1, chatRoom));
         chatRoomMemberRepository.save(ChatRoomMember.register(member2, chatRoom));
 
-        ChatMessage chatMessage = chatMessageRepository.save(ChatMessage.register(member1, new Message("hello"), chatRoom));
+        ChatMessage chatMessage = chatMessageRepository
+                .save(ChatMessage.register(member1, new Message("hello"), chatRoom));
 
         entityManager.flush();
         entityManager.clear();
@@ -75,7 +78,8 @@ class ChatMessageFinderTest {
         Member member1 = memberRepository.save(MemberFixture.createMember("han@han.com", "han", "_han_"));
         ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.register(ChatRoomType.PRIVATE));
         chatRoomMemberRepository.save(ChatRoomMember.register(member1, chatRoom));
-        ChatMessage chatMessage = chatMessageRepository.save(ChatMessage.register(member1, new Message("hello"), chatRoom));
+        ChatMessage chatMessage = chatMessageRepository
+                .save(ChatMessage.register(member1, new Message("hello"), chatRoom));
 
         chatMessage.delete(member1.getId(), java.time.LocalDateTime.now());
         entityManager.flush();
@@ -83,7 +87,7 @@ class ChatMessageFinderTest {
 
         // when - then
         assertThatThrownBy(() -> chatMessageFinder.find(chatMessage.getId()))
-                .isInstanceOf(java.util.NoSuchElementException.class);
+                .isInstanceOf(NoSuchElementException.class);
     }
 
 }

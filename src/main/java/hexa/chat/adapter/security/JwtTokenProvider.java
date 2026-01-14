@@ -1,8 +1,8 @@
 package hexa.chat.adapter.security;
 
-import hexa.chat.domain.shared.Token;
 import hexa.chat.application.auth.required.TokenProvider;
 import hexa.chat.domain.member.MemberRole;
+import hexa.chat.domain.shared.Token;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

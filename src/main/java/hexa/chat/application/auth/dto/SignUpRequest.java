@@ -4,7 +4,8 @@ import hexa.chat.domain.auth.rule.BirthDateRule;
 import hexa.chat.domain.auth.rule.NameRule;
 import hexa.chat.domain.auth.rule.PasswordRule;
 import hexa.chat.domain.member.MemberRegisterRequest;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 

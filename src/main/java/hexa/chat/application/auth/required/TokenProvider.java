@@ -1,7 +1,7 @@
 package hexa.chat.application.auth.required;
 
-import hexa.chat.domain.shared.Token;
 import hexa.chat.domain.member.MemberRole;
+import hexa.chat.domain.shared.Token;
 
 import java.util.Optional;
 import java.util.UUID;
