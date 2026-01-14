@@ -2,7 +2,6 @@ package hexa.chat.adapter.jpa.friendship;
 
 import hexa.chat.application.friendship.required.FriendshipRepository;
 import hexa.chat.domain.friendship.Friendship;
-import hexa.chat.domain.friendship.FriendshipStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

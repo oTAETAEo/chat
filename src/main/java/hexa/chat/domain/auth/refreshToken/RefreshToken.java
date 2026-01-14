@@ -1,18 +1,15 @@
 package hexa.chat.domain.auth.refreshToken;
 
-import hexa.chat.domain.AbstractEntity;
 import hexa.chat.domain.shared.Token;
 import hexa.snowflake.SnowflakeId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Date;
 
 @Entity
 @Getter

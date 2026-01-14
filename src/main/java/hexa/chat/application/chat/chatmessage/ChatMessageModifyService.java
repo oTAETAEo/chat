@@ -2,7 +2,6 @@ package hexa.chat.application.chat.chatmessage;
 
 import hexa.chat.application.chat.chatmessage.provided.ChatMessageFinder;
 import hexa.chat.application.chat.chatmessage.provided.ChatMessageModify;
-import hexa.chat.application.chat.chatmessage.provided.ChatMessageRegister;
 import hexa.chat.application.chat.chatmessage.required.ChatMessageRepository;
 import hexa.chat.domain.chat.chatmessage.ChatMessage;
 import hexa.chat.domain.chat.chatmessage.ChatMessageModifyRequest;

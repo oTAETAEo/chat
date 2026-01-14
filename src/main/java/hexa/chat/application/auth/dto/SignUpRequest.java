@@ -1,6 +1,5 @@
 package hexa.chat.application.auth.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import hexa.chat.domain.auth.rule.BirthDateRule;
 import hexa.chat.domain.auth.rule.NameRule;
 import hexa.chat.domain.auth.rule.PasswordRule;

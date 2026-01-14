@@ -1,6 +1,5 @@
 package hexa.chat.application.friendship.dto;
 
-import hexa.chat.domain.friendship.Friendship;
 
 import java.util.List;
 
