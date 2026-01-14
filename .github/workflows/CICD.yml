@@ -49,21 +49,25 @@ jobs:
       - name: Set target IP
         run: |
           set -euo pipefail
+          # 현재 실행 중인 환경 확인 (Nginx 응답 확인)
           STATUS=$(curl -o /dev/null -w "%{http_code}" "http://${{ secrets.LIVE_SERVER_IP }}/env" || echo "404")
+          
           if [ "$STATUS" = "200" ]; then
             CURRENT_UPSTREAM=$(curl -s "http://${{ secrets.LIVE_SERVER_IP }}/env")
           else
-            CURRENT_UPSTREAM=green
+            # 서버가 처음이거나 응답이 없으면 기본값을 none으로 설정하여 green이 뜨게 유도
+            CURRENT_UPSTREAM="none"
           fi
 
           echo "CURRENT_UPSTREAM=${CURRENT_UPSTREAM}" >> "$GITHUB_ENV"
 
+          # Blue가 떠 있으면 Green(8081)으로, 그 외 모든 상황은 Blue(8080)로 타겟팅
           if [ "$CURRENT_UPSTREAM" = "blue" ]; then
-            echo "STOPPED_PORT=8081" >> "$GITHUB_ENV"
             echo "TARGET_UPSTREAM=green" >> "$GITHUB_ENV"
+            echo "TARGET_PORT=8081" >> "$GITHUB_ENV"
           else
-            echo "STOPPED_PORT=8080" >> "$GITHUB_ENV"
             echo "TARGET_UPSTREAM=blue" >> "$GITHUB_ENV"
+            echo "TARGET_PORT=8080" >> "$GITHUB_ENV"
           fi
 
       - name: Docker compose
@@ -74,13 +78,15 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/live_server:latest
+            # 타겟 환경(blue/green)에 맞는 compose 파일 실행
             sudo docker compose -f docker-compose-${{ env.TARGET_UPSTREAM }}.yml up -d
       
       - name: Check deploy server URL
         uses: jtalk/url-health-check-action@v3
         with:
-          url: http://${{ secrets.LIVE_SERVER_IP }}:${{env.STOPPED_PORT}}/env
-          max-attempts: 3
+          # 방금 띄운 타겟 포트(8080 또는 8081)를 체크
+          url: http://${{ secrets.LIVE_SERVER_IP }}:${{ env.TARGET_PORT }}/env
+          max-attempts: 5
           retry-delay: 10s
 
       - name: Change nginx upstream
@@ -90,6 +96,7 @@ jobs:
           host: ${{ secrets.LIVE_SERVER_IP }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            # Nginx의 목적지를 새로 띄운 컨테이너로 변경
             sudo docker exec -i nginxserver bash -c 'echo "set \$service_url ${{ env.TARGET_UPSTREAM }};" > /etc/nginx/conf.d/service-env.inc && nginx -s reload' 
 
       - name: Stop current server
@@ -99,5 +106,8 @@ jobs:
           host: ${{ secrets.LIVE_SERVER_IP }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            sudo docker stop ${{ env.CURRENT_UPSTREAM }} || true
-            sudo docker rm ${{ env.CURRENT_UPSTREAM }} || true
+            # 이전 버전 컨테이너 종료 및 삭제 (이전에 아무것도 없었을 경우를 대비해 || true 추가)
+            if [ "${{ env.CURRENT_UPSTREAM }}" != "none" ]; then
+              sudo docker stop ${{ env.CURRENT_UPSTREAM }} || true
+              sudo docker rm ${{ env.CURRENT_UPSTREAM }} || true
+            fi
