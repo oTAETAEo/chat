@@ -20,6 +20,8 @@ public interface MemberRepository {
 
     Optional<Member> findById(Long memberId);
 
+    Optional<Member> findByPublicId(UUID publicId);
+
     List<Member> findAllById(List<Long> memberIds);
 
     List<Member> findAllByPublicId(List<UUID> publicIds);

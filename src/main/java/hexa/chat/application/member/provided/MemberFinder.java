@@ -13,9 +13,10 @@ public interface MemberFinder {
 
     Member findByEmail(String email);
 
+    Member findByPublicId(UUID publicId);
+
     List<Member> findAll(List<Long> memberIds);
 
     List<Member> findAllByPublicId(List<UUID> publicIds);
 
 }
-

@@ -43,6 +43,11 @@ public class MemberRepositoryAdapter implements MemberRepository {
     }
 
     @Override
+    public Optional<Member> findByPublicId(UUID publicId) {
+        return memberJpaRepository.findMemberByPublicId(publicId);
+    }
+
+    @Override
     public List<Member> findAllById(List<Long> memberIds) {
         return memberJpaRepository.findAllById(memberIds);
     }

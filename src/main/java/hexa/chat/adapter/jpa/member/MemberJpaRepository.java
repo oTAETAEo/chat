@@ -15,5 +15,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findMemberByName(Name name);
 
+    Optional<Member> findMemberByPublicId(UUID publicId);
+
     List<Member> findAllByPublicIdIn(List<UUID> publicIds);
 }

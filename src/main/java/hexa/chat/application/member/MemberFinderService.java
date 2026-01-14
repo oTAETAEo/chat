@@ -39,6 +39,12 @@ public class MemberFinderService implements MemberFinder {
     }
 
     @Override
+    public Member findByPublicId(UUID publicId) {
+        return memberRepository.findByPublicId(publicId)
+            .orElseThrow(() -> new NoSuchElementException("회원을 찾을 수 없습니다."));
+    }
+
+    @Override
     public List<Member> findAll(List<Long> memberIds) {
         return memberRepository.findAllById(memberIds);
     }
