@@ -10,7 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.jetbrains.annotations.NotNull;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -33,16 +33,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(
-        @NotNull HttpServletRequest request,
-        @NotNull HttpServletResponse response,
-        @NotNull FilterChain filterChain
-    ) throws ServletException, IOException {
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
 
             Optional.ofNullable(resolveAccessToken(request))
-                .flatMap(tokenProvider::parseAccessToken)
-                .ifPresent(this::authenticate);
+                    .flatMap(tokenProvider::parseAccessToken)
+                    .ifPresent(this::authenticate);
         }
 
         filterChain.doFilter(request, response);
@@ -54,19 +53,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         MemberPrincipal principal = MemberPrincipal.of(member);
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-            principal,
-            null,
-            principal.authorities()
-        );
+                principal,
+                null,
+                principal.authorities());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     private String resolveAccessToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getCookies()).stream().flatMap(Arrays::stream)
-            .filter(c -> TokenName.ACCESS_TOKEN.name().equals(c.getName()))
-            .map(Cookie::getValue)
-            .findFirst()
-            .orElse(null);
+                .filter(c -> TokenName.ACCESS_TOKEN.name().equals(c.getName()))
+                .map(Cookie::getValue)
+                .findFirst()
+                .orElse(null);
     }
 }

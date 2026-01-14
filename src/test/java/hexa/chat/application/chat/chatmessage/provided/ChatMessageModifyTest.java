@@ -59,7 +59,8 @@ class ChatMessageModifyTest {
         chatRoomMemberRepository.save(ChatRoomMember.register(member1, chatRoom));
         chatRoomMemberRepository.save(ChatRoomMember.register(member2, chatRoom));
 
-        ChatMessage chatMessage = chatMessageRepository.save(ChatMessage.register(member1, new Message("hello"), chatRoom));
+        ChatMessage chatMessage = chatMessageRepository
+                .save(ChatMessage.register(member1, new Message("hello"), chatRoom));
 
         // when
         chatMessageModify.delete(member1.getId(), chatMessage.getId());
@@ -86,11 +87,12 @@ class ChatMessageModifyTest {
         chatRoomMemberRepository.save(ChatRoomMember.register(member1, chatRoom));
         chatRoomMemberRepository.save(ChatRoomMember.register(member2, chatRoom));
 
-        ChatMessage chatMessage = chatMessageRepository.save(ChatMessage.register(member1, new Message("hello"), chatRoom));
+        ChatMessage chatMessage = chatMessageRepository
+                .save(ChatMessage.register(member1, new Message("hello"), chatRoom));
 
         // when - then
         assertThatThrownBy(() -> chatMessageModify.delete(member2.getId(), chatMessage.getId()))
-            .isInstanceOf(NoAccessToChatMessageException.class);
+                .isInstanceOf(NoAccessToChatMessageException.class);
     }
 
     @DisplayName("메시지를 수정한다.")
@@ -105,7 +107,8 @@ class ChatMessageModifyTest {
         chatRoomMemberRepository.save(ChatRoomMember.register(member1, chatRoom));
         chatRoomMemberRepository.save(ChatRoomMember.register(member2, chatRoom));
 
-        ChatMessage chatMessage = chatMessageRepository.save(ChatMessage.register(member1, new Message("hello"), chatRoom));
+        ChatMessage chatMessage = chatMessageRepository
+                .save(ChatMessage.register(member1, new Message("hello"), chatRoom));
 
         entityManager.flush();
         entityManager.clear();
