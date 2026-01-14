@@ -1,6 +1,8 @@
 package hexa.chat.adapter.security;
 
+import hexa.chat.domain.member.Member;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.security.Principal;
 import java.util.Collection;
@@ -18,4 +20,11 @@ public record MemberPrincipal(
     public String getName() {
         return id.toString();
     }
+
+    public static MemberPrincipal of(Member member) {
+        return new MemberPrincipal(
+            member.getId(),
+            List.of(new SimpleGrantedAuthority("ROLE_" + member.getRole().name())));
+    }
+
 }
