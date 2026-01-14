@@ -35,7 +35,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<Void> logIn(
         @Valid @RequestBody LoginRequest request,
-        @CookieValue(value = "deviceId", required = false) String deviceId,
+        @CookieValue(value = "DEVICE_ID" , required = false) String deviceId,
         HttpServletResponse response
     ) {
 
