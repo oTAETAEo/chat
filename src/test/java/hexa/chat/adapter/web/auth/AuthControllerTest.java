@@ -1,9 +1,9 @@
 package hexa.chat.adapter.web.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hexa.chat.adapter.security.JwtAuthenticationFilter;
 import hexa.chat.adapter.security.MemberPrincipal;
 import hexa.chat.adapter.web.ApiControllerAdvice;
-import hexa.chat.adapter.security.SecurityConfig;
 import hexa.chat.application.auth.dto.LoginRequest;
 import hexa.chat.application.auth.dto.LoginResponse;
 import hexa.chat.application.auth.dto.SignUpRequest;
@@ -23,7 +23,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -36,7 +39,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -51,8 +53,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
-@WebMvcTest(AuthController.class)
-@Import({SecurityConfig.class, ApiControllerAdvice.class})
+@WebMvcTest(
+    controllers = AuthController.class,
+    excludeFilters = @ComponentScan.Filter(
+        type = FilterType.ASSIGNABLE_TYPE,
+        classes = JwtAuthenticationFilter.class
+    )
+)
+@AutoConfigureMockMvc(addFilters = false)
+@Import(ApiControllerAdvice.class)
 class AuthControllerTest {
 
     @Autowired
