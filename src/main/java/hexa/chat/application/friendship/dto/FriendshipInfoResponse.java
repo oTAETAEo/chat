@@ -1,13 +1,12 @@
 package hexa.chat.application.friendship.dto;
 
-
 import java.util.List;
 
 public record FriendshipInfoResponse(
 
-    List<FriendshipResponse> friendships,
-    List<FriendshipResponse> senderPendingFriendships,
-    List<FriendshipResponse> receivePendingFriendships
+        List<FriendshipResponse> friendships,
+        List<FriendshipResponse> senderPendingFriendships,
+        List<FriendshipResponse> receivePendingFriendships
 
 ) {
     public FriendshipInfoResponse {

@@ -1,7 +1,5 @@
 package hexa.chat.application.auth.dto;
 
-
-
 public record LoginResponse(
 
         String accessToken,
