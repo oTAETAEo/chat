@@ -35,11 +35,11 @@ public class MemberFixture {
     }
 
     public static MemberRegisterRequest createMemberRegisterRequest(){
-        return new MemberRegisterRequest("test@test.com", "test1234", "test", "otesto", LocalDate.of(2025, 1,1));
+        return new MemberRegisterRequest("test@test.com", "test@1234", "test", "otesto", LocalDate.of(2025, 1,1));
     }
 
     public static MemberRegisterRequest createMemberRegisterRequest(String email, String name, String nickname){
-        return new MemberRegisterRequest(email, "test1234", name, nickname, LocalDate.of(2025, 1,1));
+        return new MemberRegisterRequest(email, "test@1234", name, nickname, LocalDate.of(2025, 1,1));
     }
 
     public static PasswordEncoder createPasswordEncoder() {

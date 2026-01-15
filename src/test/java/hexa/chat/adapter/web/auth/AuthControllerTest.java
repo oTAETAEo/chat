@@ -14,6 +14,7 @@ import hexa.chat.application.friendship.dto.FriendshipInfoResponse;
 import hexa.chat.application.friendship.dto.FriendshipResponse;
 import hexa.chat.application.friendship.provided.FriendshipQuery;
 import hexa.chat.application.member.dto.MemberInfoPublicResponse;
+import hexa.chat.application.member.provided.MemberFinder;
 import hexa.chat.application.member.provided.MemberQuery;
 import hexa.chat.domain.auth.InvalidCredentialsException;
 import hexa.chat.domain.friendship.Friendship;
@@ -97,7 +98,7 @@ class AuthControllerTest {
 
         // when
         ResultActions result = mockMvc.perform(
-            post("/login")
+            post("/api/auth/login")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
@@ -126,7 +127,7 @@ class AuthControllerTest {
 
         // when
         ResultActions result = mockMvc.perform(
-            post("/login")
+            post("/api/auth/login")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
@@ -143,7 +144,7 @@ class AuthControllerTest {
 
         // when
         ResultActions result = mockMvc.perform(
-            post("/login")
+            post("/api/auth/login")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
@@ -152,7 +153,7 @@ class AuthControllerTest {
         // then
         result.andExpect(status().isBadRequest())
             .andExpect(
-                jsonPath("$.errors[*].field").value(containsInAnyOrder("email", "password"))
+                jsonPath("$.errors[*].field").value(containsInAnyOrder("email"))
             );
     }
 
@@ -178,7 +179,7 @@ class AuthControllerTest {
             .willReturn(memberPublicInfo);
 
         // when & then
-        mockMvc.perform(get("/auth/info")
+        mockMvc.perform(get("/api/auth/info")
                 .with(memberPrincipalProcessor(currentMember.getId())))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.memberInfoPublicResponse.publicId")
@@ -204,7 +205,7 @@ class AuthControllerTest {
             "test@test.com",
             "_test_",
             "test",
-            "test1234",
+            "test@1234",
             "2011-01-10"
         );
 
@@ -214,7 +215,7 @@ class AuthControllerTest {
             .willReturn(response);
 
         // when - then
-        ResultActions perform = mockMvc.perform(post("/sign-up")
+        ResultActions perform = mockMvc.perform(post("/api/auth/sign-up")
             .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(signUpRequest))

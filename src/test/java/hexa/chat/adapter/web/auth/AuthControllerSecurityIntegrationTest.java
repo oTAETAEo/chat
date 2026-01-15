@@ -61,7 +61,7 @@ class AuthControllerSecurityIntegrationTest {
     @DisplayName("토큰이 없으면 보호된 엔드포인트 접근이 거부된다")
     @Test
     void authInfo_shouldRejectWithoutToken() throws Exception {
-        mockMvc.perform(get("/auth/info"))
+        mockMvc.perform(get("/api/auth/info"))
             .andExpect(status().isUnauthorized());
     }
 
@@ -93,7 +93,7 @@ class AuthControllerSecurityIntegrationTest {
         given(memberQuery.memberPublicInfo(currentMember.getId()))
             .willReturn(memberPublicInfo);
 
-        mockMvc.perform(get("/auth/info")
+        mockMvc.perform(get("/api/auth/info")
                 .cookie(new MockCookie("ACCESS_TOKEN", "ACCESS_TOKEN")))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.memberInfoPublicResponse.publicId")

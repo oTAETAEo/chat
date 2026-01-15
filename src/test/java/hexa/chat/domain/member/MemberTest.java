@@ -76,7 +76,7 @@ class MemberTest {
 
         // when - then
         assertThat(member.verifyPassword("newPassword", passwordEncoder)).isFalse();
-        assertThat(member.verifyPassword("test1234", passwordEncoder)).isTrue();
+        assertThat(member.verifyPassword("test@1234", passwordEncoder)).isTrue();
     }
 
     @DisplayName("회원 객체의 이름을 변경한다.")

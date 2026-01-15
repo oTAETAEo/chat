@@ -25,7 +25,7 @@ class SignUpUseCaseTest {
             "test@test.com",
             "_test_",
             "test",
-            "test1234",
+            "test@1234",
             "2011-01-10"
         );
 

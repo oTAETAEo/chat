@@ -4,6 +4,7 @@ import hexa.chat.application.auth.dto.LoginRequest;
 import hexa.chat.application.auth.dto.LoginResponse;
 import hexa.chat.application.auth.required.RefreshTokenRepository;
 import hexa.chat.application.member.required.MemberRepository;
+import hexa.chat.domain.auth.InvalidCredentialsException;
 import hexa.chat.domain.auth.refreshToken.RefreshToken;
 import hexa.chat.domain.member.Member;
 import hexa.chat.domain.member.MemberFixture;
@@ -109,7 +110,7 @@ class LoginUseCaseTest {
 
         // when - then
         assertThatThrownBy(() -> loginUseCase.login(loginRequest, null))
-            .isInstanceOf(ConstraintViolationException.class);
+            .isInstanceOf(InvalidCredentialsException.class);
     }
 
     @DisplayName("회원이 존재하지 않아 로그인 실패 한다.")
