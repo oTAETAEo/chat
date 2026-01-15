@@ -2,6 +2,7 @@ package hexa.chat.adapter.web;
 
 import hexa.chat.domain.auth.InvalidCredentialsException;
 import hexa.chat.domain.member.DuplicateEmailException;
+import hexa.chat.domain.member.DuplicateNameException;
 import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -48,6 +49,11 @@ public class ApiControllerAdvice {
 
     @ExceptionHandler(DuplicateEmailException.class)
     public ProblemDetail duplicateEmailException(DuplicateEmailException e){
+        return getProblemDetail(HttpStatus.BAD_REQUEST, e);
+    }
+
+    @ExceptionHandler(DuplicateNameException.class)
+    public ProblemDetail duplicateNameException(DuplicateNameException e){
         return getProblemDetail(HttpStatus.BAD_REQUEST, e);
     }
 
