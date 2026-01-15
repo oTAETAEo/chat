@@ -3,15 +3,14 @@ package hexa.chat.adapter.web.auth;
 import hexa.chat.adapter.security.MemberPrincipal;
 import hexa.chat.adapter.web.TokenName;
 import hexa.chat.adapter.web.dto.AuthInfoResponse;
-import hexa.chat.application.auth.dto.LoginRequest;
-import hexa.chat.application.auth.dto.LoginResponse;
-import hexa.chat.application.auth.dto.SignUpRequest;
-import hexa.chat.application.auth.dto.SignUpResponse;
+import hexa.chat.adapter.web.dto.LoginInfoResponse;
+import hexa.chat.application.auth.dto.*;
 import hexa.chat.application.auth.provided.LoginUseCase;
 import hexa.chat.application.auth.provided.SignUpUseCase;
 import hexa.chat.application.friendship.dto.FriendshipInfoResponse;
 import hexa.chat.application.friendship.provided.FriendshipQuery;
 import hexa.chat.application.member.dto.MemberInfoPublicResponse;
+import hexa.chat.application.member.provided.MemberFinder;
 import hexa.chat.application.member.provided.MemberQuery;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -32,8 +31,8 @@ public class AuthController {
     private final MemberQuery memberQuery;
     private final FriendshipQuery friendshipQuery;
 
-    @PostMapping("/login")
-    public ResponseEntity<Void> logIn(
+    @PostMapping("/api/auth/login")
+    public ResponseEntity<LoginInfoResponse> logIn(
         @Valid @RequestBody LoginRequest request,
         @CookieValue(value = "DEVICE_ID" , required = false) String deviceId,
         HttpServletResponse response
@@ -49,10 +48,10 @@ public class AuthController {
         response.addHeader(HttpHeaders.SET_COOKIE, accessCookie.toString());
         response.addHeader(HttpHeaders.SET_COOKIE, deviceIdCookie.toString());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(LoginInfoResponse.of(loginResponse));
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/api/auth/sign-up")
     public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request) {
 
         SignUpResponse response = signUpUseCase.signUp(request);
@@ -60,7 +59,15 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/auth/info")
+    @GetMapping("/api/auth/check-email")
+    public ResponseEntity<EmailCheckResponse> checkEmail(@RequestParam("email") String email) {
+
+        EmailCheckResponse response = signUpUseCase.checkEmail(email);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/api/auth/info")
     public ResponseEntity<AuthInfoResponse> memberInfo(@AuthenticationPrincipal MemberPrincipal memberPrincipal){
 
         MemberInfoPublicResponse memberPublicInfo = memberQuery.memberPublicInfo(memberPrincipal.id());
