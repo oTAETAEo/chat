@@ -54,4 +54,10 @@ public class MemberFinderService implements MemberFinder {
         return memberRepository.findAllByPublicId(memberIds);
     }
 
+    @Override
+    public boolean existsByEmail(String email) {
+        return memberRepository.existsByEmail(new Email(email));
+    }
+
+
 }

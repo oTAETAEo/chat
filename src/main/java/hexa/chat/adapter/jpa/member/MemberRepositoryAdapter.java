@@ -57,4 +57,9 @@ public class MemberRepositoryAdapter implements MemberRepository {
         return memberJpaRepository.findAllByPublicIdIn(publicIds);
     }
 
+    @Override
+    public boolean existsByEmail(Email email) {
+        return memberJpaRepository.existsByEmail(email);
+    }
+
 }
