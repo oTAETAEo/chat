@@ -17,9 +17,9 @@ public class PasswordRuleValidator implements ConstraintValidator<PasswordRule, 
         }
 
         // 2단계: 길이/패턴 체크
-        if (!value.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,20}$")) {
+        if (!value.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?~])[A-Za-z\\d!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?~]{8,150}$")) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("영문자, 숫자를 포함하여 8자 이상 입니다.")
+            context.buildConstraintViolationWithTemplate("영문자, 숫자, 특수문자를 포함하여 8자 이상 입니다.")
                 .addConstraintViolation();
             return false;
         }
