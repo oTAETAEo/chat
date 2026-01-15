@@ -1,9 +1,6 @@
 package hexa.chat.application.auth;
 
-import hexa.chat.application.auth.dto.LoginRequest;
-import hexa.chat.application.auth.dto.LoginResponse;
-import hexa.chat.application.auth.dto.SignUpRequest;
-import hexa.chat.application.auth.dto.SignUpResponse;
+import hexa.chat.application.auth.dto.*;
 import hexa.chat.application.auth.provided.LoginUseCase;
 import hexa.chat.application.auth.provided.SignUpUseCase;
 import hexa.chat.application.auth.required.RefreshTokenRepository;
@@ -68,6 +65,14 @@ public class AuthService implements LoginUseCase , SignUpUseCase {
         Member member = memberRegister.register(request.toCommand());
 
         return SignUpResponse.of(member);
+    }
+
+    @Override
+    public EmailCheckResponse checkEmail(String email) {
+
+        boolean result = memberFinder.existsByEmail(email);
+
+        return EmailCheckResponse.of(result);
     }
 
     private long nowTime() {
