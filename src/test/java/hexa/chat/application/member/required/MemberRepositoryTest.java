@@ -63,6 +63,21 @@ class MemberRepositoryTest {
         assertThat(result.get().getName()).isEqualTo(member.getName());
     }
 
+    @DisplayName("공개ID로 회원 객체를 조회한다.")
+    @Test
+    void findByPublicId() {
+        // given
+        Member member = MemberFixture.createMember();
+        memberRepository.save(member);
+
+        // when
+        Optional<Member> result = memberRepository.findByPublicId(member.getPublicId());
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getName()).isEqualTo(member.getName());
+    }
+
     @DisplayName("PK로 회원 객체를 조회한다.")
     @Test
     void findById() {

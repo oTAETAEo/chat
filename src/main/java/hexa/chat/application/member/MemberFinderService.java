@@ -55,8 +55,8 @@ public class MemberFinderService implements MemberFinder {
     }
 
     @Override
-    public boolean existsByEmail(String email) {
-        return memberRepository.existsByEmail(new Email(email));
+    public boolean existsByEmail(Email email) {
+        return memberRepository.existsByEmail(email);
     }
 
     @Override

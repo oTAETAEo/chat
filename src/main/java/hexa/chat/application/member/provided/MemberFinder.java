@@ -21,7 +21,7 @@ public interface MemberFinder {
 
     List<Member> findAllByPublicId(List<UUID> publicIds);
 
-    boolean existsByEmail(String email);
+    boolean existsByEmail(Email email);
 
     boolean existsByName(Name name);
 }
