@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(
                     "/hc", "/env",
-                    "/api/auth/login", "/api/auth/sign-up", "/api/auth/check-email"
+                    "/api/auth/login", "/api/auth/sign-up", "/api/auth/check-email", "/api/auth/check-name"
                 ).permitAll()
                 .anyRequest().authenticated()
             )
