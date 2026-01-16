@@ -59,5 +59,10 @@ public class MemberFinderService implements MemberFinder {
         return memberRepository.existsByEmail(new Email(email));
     }
 
+    @Override
+    public boolean existsByName(Name name) {
+        return memberRepository.existsByName(name);
+    }
+
 
 }

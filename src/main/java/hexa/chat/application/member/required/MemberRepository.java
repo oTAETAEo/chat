@@ -27,4 +27,6 @@ public interface MemberRepository {
     List<Member> findAllByPublicId(List<UUID> publicIds);
 
     boolean existsByEmail(Email email);
+
+    boolean existsByName(Name name);
 }

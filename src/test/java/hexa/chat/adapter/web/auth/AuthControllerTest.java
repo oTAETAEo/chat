@@ -8,6 +8,7 @@ import hexa.chat.application.auth.dto.LoginRequest;
 import hexa.chat.application.auth.dto.LoginResponse;
 import hexa.chat.application.auth.dto.SignUpRequest;
 import hexa.chat.application.auth.dto.SignUpResponse;
+import hexa.chat.application.auth.provided.LogOutUseCase;
 import hexa.chat.application.auth.provided.LoginUseCase;
 import hexa.chat.application.auth.provided.SignUpUseCase;
 import hexa.chat.application.friendship.dto.FriendshipInfoResponse;
@@ -73,6 +74,9 @@ class AuthControllerTest {
 
     @MockitoBean
     private LoginUseCase loginUseCase;
+
+    @MockitoBean
+    private LogOutUseCase logOutUseCase;
 
     @MockitoBean
     private SignUpUseCase signUpUseCase;

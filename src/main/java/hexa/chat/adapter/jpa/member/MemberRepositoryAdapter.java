@@ -62,4 +62,9 @@ public class MemberRepositoryAdapter implements MemberRepository {
         return memberJpaRepository.existsByEmail(email);
     }
 
+    @Override
+    public boolean existsByName(Name name) {
+        return memberJpaRepository.existsByName(name);
+    }
+
 }

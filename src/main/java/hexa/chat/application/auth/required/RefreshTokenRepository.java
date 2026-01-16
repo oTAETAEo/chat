@@ -16,4 +16,6 @@ public interface RefreshTokenRepository extends Repository<RefreshToken, Long> {
 
     List<RefreshToken> findAllByMemberId(Long memberId);
 
+    void deleteByMemberIdAndDeviceId(Long memberId, String deviceId);
+
 }

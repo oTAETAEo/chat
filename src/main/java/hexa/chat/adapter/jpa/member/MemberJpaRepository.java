@@ -20,4 +20,6 @@ public interface MemberJpaRepository extends JpaRepository<Member, Long> {
     List<Member> findAllByPublicIdIn(List<UUID> publicIds);
 
     boolean existsByEmail(Email email);
+
+    boolean existsByName(Name name);
 }

@@ -3,6 +3,7 @@ package hexa.chat.adapter.web.auth;
 import hexa.chat.adapter.security.JwtAuthenticationFilter;
 import hexa.chat.adapter.security.SecurityConfig;
 import hexa.chat.adapter.web.ApiControllerAdvice;
+import hexa.chat.application.auth.provided.LogOutUseCase;
 import hexa.chat.application.auth.provided.LoginUseCase;
 import hexa.chat.application.auth.provided.SignUpUseCase;
 import hexa.chat.application.auth.required.TokenProvider;
@@ -45,6 +46,9 @@ class AuthControllerSecurityIntegrationTest {
 
     @MockitoBean
     private SignUpUseCase signUpUseCase;
+
+    @MockitoBean
+    private LogOutUseCase logOutUseCase;
 
     @MockitoBean
     private FriendshipQuery friendshipQuery;

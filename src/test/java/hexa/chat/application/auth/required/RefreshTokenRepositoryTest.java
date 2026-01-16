@@ -34,8 +34,7 @@ class RefreshTokenRepositoryTest {
         // when
         refreshTokenRepository.save(refreshToken);
 
-        entityManager.flush();
-        entityManager.clear();
+        cleanJpaCache();
 
         // then
         Optional<RefreshToken> result = refreshTokenRepository.findById(refreshToken.getId());
@@ -43,4 +42,25 @@ class RefreshTokenRepositoryTest {
         assertThat(result.get().getTokenValue()).isEqualTo(refreshToken.getTokenValue());
     }
 
+    @DisplayName("회원 ID와 디바이스 ID로 Refresh Token을 조회해 삭제한다.")
+    @Test
+    void deleteByMemberIdAndDeviceId() {
+        // given
+        RefreshToken refreshToken = RefreshToken.register(1L, "ipad1234", new Token("1234.1234.1234", new Date()));
+        refreshTokenRepository.save(refreshToken);
+        cleanJpaCache();
+
+        // when
+        refreshTokenRepository.deleteByMemberIdAndDeviceId(1L, "ipad1234");
+        cleanJpaCache();
+
+        // then
+        Optional<RefreshToken> result = refreshTokenRepository.findByMemberIdAndDeviceId(1L, "ipad1234");
+        assertThat(result).isEmpty();
+    }
+
+    private void cleanJpaCache() {
+        entityManager.flush();
+        entityManager.clear();
+    }
 }

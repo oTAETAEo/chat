@@ -1,6 +1,7 @@
 package hexa.chat.application.auth;
 
 import hexa.chat.application.auth.dto.*;
+import hexa.chat.application.auth.provided.LogOutUseCase;
 import hexa.chat.application.auth.provided.LoginUseCase;
 import hexa.chat.application.auth.provided.SignUpUseCase;
 import hexa.chat.application.auth.required.RefreshTokenRepository;
@@ -11,6 +12,8 @@ import hexa.chat.domain.auth.InvalidCredentialsException;
 import hexa.chat.domain.auth.refreshToken.RefreshToken;
 import hexa.chat.domain.member.Member;
 import hexa.chat.domain.member.PasswordEncoder;
+import hexa.chat.domain.shared.Email;
+import hexa.chat.domain.shared.Name;
 import hexa.chat.domain.shared.Token;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
@@ -26,7 +29,7 @@ import java.util.UUID;
 @Validated
 @Transactional
 @RequiredArgsConstructor
-public class AuthService implements LoginUseCase , SignUpUseCase {
+public class AuthService implements LoginUseCase , SignUpUseCase, LogOutUseCase {
 
     private final PasswordEncoder passwordEncoder;
 
@@ -68,11 +71,34 @@ public class AuthService implements LoginUseCase , SignUpUseCase {
     }
 
     @Override
-    public EmailCheckResponse checkEmail(String email) {
+    public EmailCheckResponse checkEmail(Email email) {
 
-        boolean result = memberFinder.existsByEmail(email);
+        boolean result = memberFinder.existsByEmail(email.address());
 
         return EmailCheckResponse.of(result);
+    }
+
+    @Override
+    public NameCheckResponse checkName(String name) {
+
+        if (!Name.isValid(name)) {
+            return NameCheckResponse.unavailable("이름은 특수문자를 포함할 수 없습니다.");
+        }
+
+        if (memberFinder.existsByName(new Name(name))) {
+            return NameCheckResponse.unavailable("멋진 다른 이름을 골라보세요!");
+        }
+
+        return NameCheckResponse.available("사용 가능한 이름입니다.");
+    }
+
+    @Override
+    public void logOut(Long memberId, String deviceId) {
+
+        Member member = memberFinder.findById(memberId);
+        String resolveDeviceId = resolveDeviceId(deviceId);
+
+        refreshTokenRepository.deleteByMemberIdAndDeviceId(member.getId(), resolveDeviceId);
     }
 
     private long nowTime() {
@@ -84,4 +110,5 @@ public class AuthService implements LoginUseCase , SignUpUseCase {
             ? UUID.randomUUID().toString()
             : deviceId;
     }
+
 }

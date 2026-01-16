@@ -7,16 +7,18 @@ import java.util.regex.Pattern;
 
 @Embeddable
 public record Name(
-
     @Column(nullable = false, unique = true)
     String name
 ) {
-
     private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z_]+$");
 
     public Name {
-        if (!NAME_PATTERN.matcher(name).matches()){
+        if (!isValid(name)) {
             throw new IllegalArgumentException("이름 형식에 맞지 않습니다 : " + name);
         }
+    }
+
+    public static boolean isValid(String name) {
+        return name != null && NAME_PATTERN.matcher(name).matches();
     }
 }
