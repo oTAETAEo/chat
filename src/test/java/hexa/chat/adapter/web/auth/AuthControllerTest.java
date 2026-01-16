@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hexa.chat.adapter.security.JwtAuthenticationFilter;
 import hexa.chat.adapter.security.MemberPrincipal;
 import hexa.chat.adapter.web.ApiControllerAdvice;
-import hexa.chat.application.auth.dto.LoginRequest;
-import hexa.chat.application.auth.dto.LoginResponse;
-import hexa.chat.application.auth.dto.SignUpRequest;
-import hexa.chat.application.auth.dto.SignUpResponse;
+import hexa.chat.application.auth.dto.*;
 import hexa.chat.application.auth.provided.LogOutUseCase;
 import hexa.chat.application.auth.provided.LoginUseCase;
 import hexa.chat.application.auth.provided.SignUpUseCase;
@@ -15,7 +12,6 @@ import hexa.chat.application.friendship.dto.FriendshipInfoResponse;
 import hexa.chat.application.friendship.dto.FriendshipResponse;
 import hexa.chat.application.friendship.provided.FriendshipQuery;
 import hexa.chat.application.member.dto.MemberInfoPublicResponse;
-import hexa.chat.application.member.provided.MemberFinder;
 import hexa.chat.application.member.provided.MemberQuery;
 import hexa.chat.domain.auth.InvalidCredentialsException;
 import hexa.chat.domain.friendship.Friendship;
@@ -230,6 +226,118 @@ class AuthControllerTest {
             .andExpect(jsonPath("$.welcomeMessage")
                 .value("test 님 가입을 환영합니다."));
 
+    }
+
+    @DisplayName("로그아웃에 성공한다.")
+    @Test
+    @WithMockUser
+    void logOut_success() throws Exception {
+        // given
+        Long memberId = 1L;
+        String deviceId = "test-device-id";
+
+        // when
+        ResultActions result = mockMvc.perform(
+            post("/api/auth/logout")
+                .with(memberPrincipalProcessor(memberId))
+                .with(csrf())
+                .cookie(new jakarta.servlet.http.Cookie("DEVICE_ID", deviceId))
+        );
+
+        // then
+        result.andExpect(status().isOk());
+    }
+
+    @DisplayName("이메일 중복 확인에 성공한다.")
+    @Test
+    void checkEmail_success() throws Exception {
+        // given
+        EmailCheckRequest request = new EmailCheckRequest("newemail@test.com");
+        EmailCheckResponse response = EmailCheckResponse.of(false);
+
+        given(signUpUseCase.checkEmail(request))
+            .willReturn(response);
+
+        // when
+        ResultActions result = mockMvc.perform(
+            post("/api/auth/check-email")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        // then
+        result.andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value(true));
+    }
+
+    @DisplayName("이미 존재하는 이메일이므로 중복 확인에 실패한다.")
+    @Test
+    void checkEmail_fail_when_email_already_exists() throws Exception {
+        // given
+        EmailCheckRequest request = new EmailCheckRequest("existing@test.com");
+        EmailCheckResponse response = EmailCheckResponse.of(true);
+
+        given(signUpUseCase.checkEmail(request))
+            .willReturn(response);
+
+        // when
+        ResultActions result = mockMvc.perform(
+            post("/api/auth/check-email")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        // then
+        result.andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value(false));
+    }
+
+    @DisplayName("닉네임 중복 확인에 성공한다.")
+    @Test
+    void checkName_success() throws Exception {
+        // given
+        NameCheckRequest request = new NameCheckRequest("newname");
+        NameCheckResponse response = NameCheckResponse.available("사용 가능한 이름 입니다.");
+
+        given(signUpUseCase.checkName(request))
+            .willReturn(response);
+
+        // when
+        ResultActions result = mockMvc.perform(
+            post("/api/auth/check-name")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        // then
+        result.andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value(true));
+    }
+
+    @DisplayName("이미 존재하는 닉네임이므로 중복 확인에 실패한다.")
+    @Test
+    void checkName_fail_when_name_already_exists() throws Exception {
+        // given
+        NameCheckRequest request = new NameCheckRequest("existingname");
+        NameCheckResponse response = NameCheckResponse.unavailable("사용 불가능한 이름 입니다.");
+
+        given(signUpUseCase.checkName(request))
+            .willReturn(response);
+
+        // when
+        ResultActions result = mockMvc.perform(
+            post("/api/auth/check-name")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        // then
+        result.andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value(false));
     }
     private RequestPostProcessor memberPrincipalProcessor(Long memberId) {
         return request -> {

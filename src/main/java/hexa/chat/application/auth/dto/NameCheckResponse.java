@@ -10,14 +10,14 @@ public record NameCheckResponse(
     public static NameCheckResponse unavailable(String message) {
         return new  NameCheckResponse(
             message,
-            true
+            false
         );
     }
 
     public static NameCheckResponse available(String message) {
         return new  NameCheckResponse(
             message,
-            false
+            true
         );
     }
 

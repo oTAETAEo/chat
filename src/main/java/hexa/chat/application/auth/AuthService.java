@@ -71,21 +71,21 @@ public class AuthService implements LoginUseCase , SignUpUseCase, LogOutUseCase 
     }
 
     @Override
-    public EmailCheckResponse checkEmail(Email email) {
+    public EmailCheckResponse checkEmail(EmailCheckRequest request) {
 
-        boolean result = memberFinder.existsByEmail(email.address());
+        boolean result = memberFinder.existsByEmail(new Email(request.email()));
 
         return EmailCheckResponse.of(result);
     }
 
     @Override
-    public NameCheckResponse checkName(String name) {
+    public NameCheckResponse checkName(NameCheckRequest request) {
 
-        if (!Name.isValid(name)) {
+        if (!Name.isValid(request.name())) {
             return NameCheckResponse.unavailable("이름은 특수문자를 포함할 수 없습니다.");
         }
 
-        if (memberFinder.existsByName(new Name(name))) {
+        if (memberFinder.existsByName(new Name(request.name()))) {
             return NameCheckResponse.unavailable("멋진 다른 이름을 골라보세요!");
         }
 

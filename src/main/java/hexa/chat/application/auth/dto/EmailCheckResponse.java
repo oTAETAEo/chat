@@ -10,12 +10,12 @@ public record EmailCheckResponse(
         if (result){
             return new  EmailCheckResponse(
                 "사용중인 이메일 입니다.",
-                true
+                false
             );
         }
         return new  EmailCheckResponse(
             "멋진 이메일이네요!",
-            false
+            true
         );
     }
 }

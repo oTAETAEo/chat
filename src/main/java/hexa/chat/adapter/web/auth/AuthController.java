@@ -78,18 +78,18 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/api/auth/check-email")
-    public ResponseEntity<EmailCheckResponse> checkEmail(@RequestParam("email") String email) {
+    @PostMapping("/api/auth/check-email")
+    public ResponseEntity<EmailCheckResponse> checkEmail(@Valid @RequestBody EmailCheckRequest request) {
 
-        EmailCheckResponse response = signUpUseCase.checkEmail(new Email(email));
+        EmailCheckResponse response = signUpUseCase.checkEmail(request);
 
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/api/auth/check-name")
-    public ResponseEntity<NameCheckResponse> checkName(@RequestParam("name") String name) {
+    @PostMapping("/api/auth/check-name")
+    public ResponseEntity<NameCheckResponse> checkName(@Valid @RequestBody NameCheckRequest request) {
 
-        NameCheckResponse response = signUpUseCase.checkName(name);
+        NameCheckResponse response = signUpUseCase.checkName(request);
 
         return ResponseEntity.ok(response);
     }
