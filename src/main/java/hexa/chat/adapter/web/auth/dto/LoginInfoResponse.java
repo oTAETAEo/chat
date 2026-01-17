@@ -1,4 +1,4 @@
-package hexa.chat.adapter.web.dto;
+package hexa.chat.adapter.web.auth.dto;
 
 import hexa.chat.application.auth.dto.LoginResponse;
 

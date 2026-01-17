@@ -2,8 +2,8 @@ package hexa.chat.adapter.web.auth;
 
 import hexa.chat.adapter.security.MemberPrincipal;
 import hexa.chat.adapter.web.TokenName;
-import hexa.chat.adapter.web.dto.AuthInfoResponse;
-import hexa.chat.adapter.web.dto.LoginInfoResponse;
+import hexa.chat.adapter.web.auth.dto.AuthInfoResponse;
+import hexa.chat.adapter.web.auth.dto.LoginInfoResponse;
 import hexa.chat.application.auth.dto.*;
 import hexa.chat.application.auth.provided.LogOutUseCase;
 import hexa.chat.application.auth.provided.LoginUseCase;
@@ -12,7 +12,6 @@ import hexa.chat.application.friendship.dto.FriendshipInfoResponse;
 import hexa.chat.application.friendship.provided.FriendshipQuery;
 import hexa.chat.application.member.dto.MemberInfoPublicResponse;
 import hexa.chat.application.member.provided.MemberQuery;
-import hexa.chat.domain.shared.Email;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
