@@ -29,7 +29,7 @@ import java.util.UUID;
 @Validated
 @Transactional
 @RequiredArgsConstructor
-public class AuthService implements LoginUseCase , SignUpUseCase, LogOutUseCase {
+public class AuthService implements LoginUseCase, LogOutUseCase {
 
     private final PasswordEncoder passwordEncoder;
 
@@ -37,7 +37,6 @@ public class AuthService implements LoginUseCase , SignUpUseCase, LogOutUseCase 
     private final RefreshTokenRepository refreshTokenRepository;
 
     private final MemberFinder memberFinder;
-    private final MemberRegister memberRegister;
 
     @Override
     public LoginResponse login(@Valid LoginRequest request, @Nullable String deviceId) {
@@ -60,36 +59,6 @@ public class AuthService implements LoginUseCase , SignUpUseCase, LogOutUseCase 
         refreshTokenRepository.save(refreshToken);
 
         return LoginResponse.of(accessJwt.value(), refreshJwt.value(), resolveDeviceId);
-    }
-
-    @Override
-    public SignUpResponse signUp(@Valid SignUpRequest request) {
-
-        Member member = memberRegister.register(request.toCommand());
-
-        return SignUpResponse.of(member);
-    }
-
-    @Override
-    public EmailCheckResponse checkEmail(EmailCheckRequest request) {
-
-        boolean result = memberFinder.existsByEmail(new Email(request.email()));
-
-        return EmailCheckResponse.of(result);
-    }
-
-    @Override
-    public NameCheckResponse checkName(NameCheckRequest request) {
-
-        if (!Name.isValid(request.name())) {
-            return NameCheckResponse.unavailable("이름은 특수문자를 포함할 수 없습니다.");
-        }
-
-        if (memberFinder.existsByName(new Name(request.name()))) {
-            return NameCheckResponse.unavailable("멋진 다른 이름을 골라보세요!");
-        }
-
-        return NameCheckResponse.available("사용 가능한 이름입니다.");
     }
 
     @Override
