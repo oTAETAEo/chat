@@ -1,4 +1,4 @@
-package hexa.chat.domain.auth.rule;
+package hexa.chat.domain.member.rule;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -6,11 +6,11 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = NameRuleValidator.class)
+@Constraint(validatedBy = BirthDateRuleValidator.class)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NameRule {
-    String message() default "이름 형식이 올바르지 않습니다.";
+public @interface BirthDateRule {
+    String message() default "형식 오류";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

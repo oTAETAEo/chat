@@ -1,6 +1,6 @@
 package hexa.chat.application.auth.dto;
 
-import hexa.chat.domain.auth.rule.NameRule;
+import hexa.chat.domain.member.rule.NameRule;
 
 public record NameCheckRequest(
 

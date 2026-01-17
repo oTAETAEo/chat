@@ -1,4 +1,4 @@
-package hexa.chat.domain.auth.rule;
+package hexa.chat.domain.member.rule;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
