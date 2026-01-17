@@ -7,6 +7,7 @@ import hexa.chat.adapter.web.ApiControllerAdvice;
 import hexa.chat.application.auth.dto.*;
 import hexa.chat.application.auth.provided.LogOutUseCase;
 import hexa.chat.application.auth.provided.LoginUseCase;
+import hexa.chat.application.auth.provided.SignUpFixture;
 import hexa.chat.application.auth.provided.SignUpUseCase;
 import hexa.chat.application.friendship.dto.FriendshipInfoResponse;
 import hexa.chat.application.friendship.dto.FriendshipResponse;
@@ -37,6 +38,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -47,6 +49,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -201,13 +204,7 @@ class AuthControllerTest {
     void signUp_success() throws Exception {
 
         // given
-        SignUpRequest signUpRequest = new SignUpRequest(
-            "test@test.com",
-            "_test_",
-            "test",
-            "test@1234",
-            "2011-01-10"
-        );
+        SignUpRequest signUpRequest = SignUpFixture.createSignUpRequest();
 
         SignUpResponse response = new SignUpResponse("test 님 가입을 환영합니다.");
 
@@ -217,11 +214,12 @@ class AuthControllerTest {
         // when - then
         ResultActions perform = mockMvc.perform(post("/api/auth/sign-up")
             .with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
+            .contentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))
             .content(objectMapper.writeValueAsString(signUpRequest))
         );
 
         perform
+            .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.welcomeMessage")
                 .value("test 님 가입을 환영합니다."));

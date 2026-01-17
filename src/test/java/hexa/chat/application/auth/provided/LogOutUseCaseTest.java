@@ -36,13 +36,7 @@ class LogOutUseCaseTest {
     @Test
     void logOut() {
         // given
-        SignUpRequest signUpRequest = new SignUpRequest(
-            "test@test.com",
-            "_test_",
-            "test",
-            "test@1234",
-            "2011-01-10"
-        );
+        SignUpRequest signUpRequest = SignUpFixture.createSignUpRequest();
 
         signUpUseCase.signUp(signUpRequest);
 

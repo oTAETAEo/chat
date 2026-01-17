@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -20,13 +22,7 @@ class SignUpUseCaseTest {
     @Test
     void signUp() {
         // given
-        SignUpRequest signUpRequest = new SignUpRequest(
-            "test@test.com",
-            "_test_",
-            "test",
-            "test@1234",
-            "2011-01-10"
-        );
+        SignUpRequest signUpRequest = SignUpFixture.createSignUpRequest();
 
         // when
         SignUpResponse signUpResponse = signUpUseCase.signUp(signUpRequest);
@@ -39,13 +35,7 @@ class SignUpUseCaseTest {
     @Test
     void checkName() {
         // given
-        SignUpRequest signUpRequest = new SignUpRequest(
-            "test@test.com",
-            "_test_",
-            "test",
-            "test@1234",
-            "2011-01-10"
-        );
+        SignUpRequest signUpRequest = SignUpFixture.createSignUpRequest();
 
         signUpUseCase.signUp(signUpRequest);
 
@@ -60,13 +50,7 @@ class SignUpUseCaseTest {
     @Test
     void checkEmail() {
         // given
-        SignUpRequest signUpRequest = new SignUpRequest(
-            "test@test.com",
-            "_test_",
-            "test",
-            "test@1234",
-            "2011-01-10"
-        );
+        SignUpRequest signUpRequest = SignUpFixture.createSignUpRequest();
 
         signUpUseCase.signUp(signUpRequest);
 
@@ -76,4 +60,6 @@ class SignUpUseCaseTest {
         // then
         assertThat(response.result()).isFalse();
     }
+
+
 }
