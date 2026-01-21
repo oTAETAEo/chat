@@ -22,6 +22,10 @@ jobs:
 
       - name: Build with Gradle
         run: |
+          set -euo pipefail
+          test -n "${{ secrets.APPLICATION_JWT }}" || (echo "Missing APPLICATION_JWT" && exit 1)
+          test -n "${{ secrets.APPLICATION_SECRET }}" || (echo "Missing APPLICATION_SECRET" && exit 1)
+
           echo ${{secrets.APPLICATION_JWT}} | base64 --decode > ./src/main/resources/application-jwt.yml
           echo ${{secrets.APPLICATION_SECRET}} | base64 --decode > ./src/main/resources/application-secret.yml
           chmod +x ./gradlew
