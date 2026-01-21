@@ -22,7 +22,7 @@ jobs:
 
       - name: Build with Gradle
         run: |
-          set -euo pipefail
+          set -euo pipe fail
           test -n "${{ secrets.APPLICATION_JWT }}" || (echo "Missing APPLICATION_JWT" && exit 1)
           test -n "${{ secrets.APPLICATION_SECRET }}" || (echo "Missing APPLICATION_SECRET" && exit 1)
 
