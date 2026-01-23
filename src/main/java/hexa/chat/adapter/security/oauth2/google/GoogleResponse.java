@@ -9,7 +9,7 @@ public class GoogleResponse implements OAuth2Response {
     private final Map<String, Object> attribute;
 
     public GoogleResponse(Map<String, Object> attribute) {
-        this.attribute = attribute;
+        this.attribute = (attribute != null) ? Map.copyOf(attribute) : Map.of();
     }
 
     @Override

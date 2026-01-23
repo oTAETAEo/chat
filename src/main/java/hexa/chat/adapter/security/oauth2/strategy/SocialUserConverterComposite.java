@@ -13,7 +13,7 @@ public class SocialUserConverterComposite {
 
     // List 형태로 생성자 주입을 받으면 스프링이 해당 타입의 모든 빈을 주입 해 준다.
     public SocialUserConverterComposite(List<SocialUserConverter> converters) {
-        this.converters = converters;
+        this.converters = (converters != null) ? List.copyOf(converters) : List.of();
     }
 
     public OAuth2Response convert(String registrationId, Map<String, Object> attributes) {
