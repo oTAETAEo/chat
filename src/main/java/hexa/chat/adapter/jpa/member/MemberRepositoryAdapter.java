@@ -67,4 +67,8 @@ public class MemberRepositoryAdapter implements MemberRepository {
         return memberJpaRepository.existsByName(name);
     }
 
+    @Override
+    public Optional<Member> findByProviderId(String providerId) {
+        return memberJpaRepository.findByProviderId(providerId);
+    }
 }
