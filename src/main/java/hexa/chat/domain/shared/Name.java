@@ -10,7 +10,7 @@ public record Name(
     @Column(nullable = false, unique = true)
     String name
 ) {
-    private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z_]+$");
+    private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z가-힣_\\s]+$");
 
     public Name {
         if (!isValid(name)) {
