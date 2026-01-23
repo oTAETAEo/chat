@@ -25,17 +25,21 @@ public class Member extends AbstractEntity {
     @Embedded
     private Email email;
 
-    @Column(nullable = false)
     private String passwordHash;
+
+    private String socialType;
+
+    private String providerId;
 
     @Embedded
     private Name name;
 
-    @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = false)
     private LocalDate birthDate;
+
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
@@ -50,7 +54,21 @@ public class Member extends AbstractEntity {
         member.birthDate = Objects.requireNonNull(request.birthDate());
         member.nickname = resolveNickname(request);
         member.publicId = UUID.randomUUID();
+        member.gender = request.gender();
         member.role = MemberRole.USER;
+
+        return member;
+    }
+
+    public static Member oAuth2register(String name, String email, String providerId, String socialType){
+        Member member = new Member();
+
+        member.name = new Name(Objects.requireNonNull(name));
+        member.email = new Email(Objects.requireNonNull(email));
+        member.providerId = Objects.requireNonNull(providerId);
+        member.socialType = Objects.requireNonNull(socialType);
+        member.publicId = UUID.randomUUID();
+        member.role = MemberRole.GUEST;
 
         return member;
     }

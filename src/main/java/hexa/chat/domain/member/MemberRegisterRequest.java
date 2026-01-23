@@ -1,9 +1,7 @@
 package hexa.chat.domain.member;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
@@ -23,6 +21,9 @@ public record MemberRegisterRequest(
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    LocalDate birthDate
+    LocalDate birthDate,
+
+    @NotNull
+    Gender gender
 ) {
 }
