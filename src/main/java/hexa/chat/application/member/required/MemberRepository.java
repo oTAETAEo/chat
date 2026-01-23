@@ -29,4 +29,6 @@ public interface MemberRepository {
     boolean existsByEmail(Email email);
 
     boolean existsByName(Name name);
+
+    Optional<Member> findByProviderId(String providerId);
 }
